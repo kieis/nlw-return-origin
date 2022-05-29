@@ -6,6 +6,32 @@ onScroll();
 function onScroll() {
     showNavOnScroll();
     showBackToTopButtonOnScroll();
+    activateMenuAtCurrentSection('#home');
+    activateMenuAtCurrentSection('#services');
+    activateMenuAtCurrentSection('#about');
+    activateMenuAtCurrentSection('#contact');
+}
+
+function activateMenuAtCurrentSection(sectionId) {
+    const targetLine = scrollY + innerHeight / 2;
+
+    const sectionElemn = doc.querySelector(sectionId);
+    const sectionTop = sectionElemn.offsetTop;
+    const sectionHeight = sectionElemn.offsetHeight;
+
+    const sectionTopReachOrPassedTargetLine = targetLine >= sectionTop;
+    const sectionEndsAt = sectionTop + sectionHeight;
+    const sectionEndPassedTargetLine = sectionEndsAt <= targetLine;
+
+    const sectionBoundaries = sectionTopReachOrPassedTargetLine 
+    && !sectionEndPassedTargetLine;
+
+    const menuElemn = doc.querySelector(`.menu a[href*=${sectionId.replace('#', '')}]`);
+
+    menuElemn.classList.remove('active');
+    if(sectionBoundaries) {
+        menuElemn.classList.add('active');
+    }
 }
 
 function showNavOnScroll() {
